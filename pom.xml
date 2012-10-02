@@ -5,10 +5,10 @@
 4.0.0
     </modelVersion>
     <groupId>
-ShowRSSMobile
+CheckArgosMobile
     </groupId>
     <artifactId>
-ShowRSSMobile
+CheckArgosMobile
     </artifactId>
     <version>
 0.0.1-SNAPSHOT
@@ -17,7 +17,7 @@ ShowRSSMobile
 apk
     </packaging>
     <name>
-showrssmobile
+checkargosmobile
     </name>
     <dependencies>
         <dependency>
