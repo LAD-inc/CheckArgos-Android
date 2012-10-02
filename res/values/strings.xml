@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loginURL">http://showrss.karmorra.info/?cs=login</string>
+    <string name="hello">Yo cool new show rss mobile app woo</string>
+    <string name="app_name">ShowRSSMobile</string>
+    <string name="username">Username: </string>
+    <string name="password">Password: </string>
+    <string name="login">Login</string>
+</resources>
