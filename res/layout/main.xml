@@ -2,41 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/username" />
-
+        android:text="@string/enter_product_id" />
+
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/productId"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/password" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword" />
-
+
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/checkStock"
         android:layout_width="133dp"
         android:layout_height="wrap_content"
-        android:text="@string/login" />
+        android:text="@string/check_stock" />
 
 </LinearLayout>
