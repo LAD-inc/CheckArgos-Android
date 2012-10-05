@@ -1,18 +1,19 @@
 package com.ladinc.checkargos.domain;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.ladinc.checkargos.utilities.HtmlCode;
-import com.ladinc.checkargos.utilities.RegexHelper;
+import com.ladinc.checkargos.constants.UrlConstants;
 
 public class Product {
 	
-	private static String REGEX_PRODUCT_EXIST = "Sorry, we are unable to find the catalogue number(s) highlighted in your list.";
-	private static String REGEXT_PAGE_TITLE = "<title>([^`]*?)<\\/title>";
+	
+	private static final String TAG = "Product";
 	
 	String id;
 	String name;
@@ -20,38 +21,37 @@ public class Product {
 	String imageUrl;
 	Map<String, String> stockLevels;
 	
+	public Product(String productId) 
+	{
+		this.id = productId;
+	}
+
+	
 	public void getProductInfo(Activity activity) throws Exception
 	{
-		if (id != null)
+		if (this.id != null)
 		{
-			String url = getProductUrl();
-			String htmlCode = HtmlCode.getHtmlCode(url, activity);
-			
-			if(doesProductExist(htmlCode))
+			String htmlCode = HtmlCode.getHtmlCode(getProductInfoUrl(), activity);
+			//Maybe add error param in Json?
+			if (htmlCode != "")
 			{
+				JSONObject jsonObj = new JSONObject(htmlCode);
+				this.name = jsonObj.getString("name");
+				this.price = jsonObj.getString("price");
+				this.imageUrl = jsonObj.getString("imageUrl");
 				
+				Log.d(TAG, "Product Name: " + this.name);
+				Log.d(TAG, "Product Price: " + this.price);
+				Log.d(TAG, "Image URL: " + this.imageUrl);
 			}
+			
 		}
 	}
 	
-	public boolean doesProductExist(String htmlCode)
+	private String getProductInfoUrl()
 	{
-		return RegexHelper.isPatternInText(htmlCode, REGEX_PRODUCT_EXIST);
-	}
-	
-	public String getProductName(String htmlCode)
-	{
-		String productPageTitle = RegexHelper.getStringFromText(htmlCode, REGEXT_PAGE_TITLE);
-		
-		String[] tempArray =  productPageTitle.split("at Argos.ie");
-		
-		return tempArray[0];
-	}
-	
-	
-	public String getProductUrl()
-	{
-		return "http://www.argos.ie/static/Product/partNumber/" + this.id + ".htm";
+		String url = UrlConstants.serviceUrl + "?function=info&productId=" + this.id;
+		return url;
 	}
 
 }

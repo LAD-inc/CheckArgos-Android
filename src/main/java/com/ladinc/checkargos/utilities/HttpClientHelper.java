@@ -29,7 +29,7 @@ public class HttpClientHelper {
 		params.setParameter("http.connection-manager.timeout", (long)20000);
 		params.setParameter("http.socket.timeout",(int)20000);
 		params.setParameter("http.connection.timeout",(int)20000);
-		HttpClientParams.setRedirecting(params, false);
+		HttpClientParams.setRedirecting(params, true);
 		
 		HttpClient newHttpclient = new DefaultHttpClient(params);
 		

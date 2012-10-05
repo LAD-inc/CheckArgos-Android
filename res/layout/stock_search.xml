@@ -12,13 +12,13 @@
         android:text="@string/enter_product_id" />
 
     <EditText
-        android:id="@+id/productId"
+        android:id="@+id/productIdText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10" />
 
     <Button
-        android:id="@+id/checkStock"
+        android:id="@+id/checkStockButton"
         android:layout_width="133dp"
         android:layout_height="wrap_content"
         android:text="@string/check_stock" />
