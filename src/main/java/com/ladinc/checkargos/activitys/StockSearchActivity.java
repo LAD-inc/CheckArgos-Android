@@ -100,6 +100,11 @@ public class StockSearchActivity extends Activity implements OnClickListener
 		//Log.d(TAG, "Stock status : " + this.product. );
 	}
 	
+	public void printProductObject()
+	{
+		Log.d(TAG, "Product : " + this.product.toString() );
+	}
+	
 	
 
 	
@@ -201,7 +206,7 @@ public class StockSearchActivity extends Activity implements OnClickListener
 			@Override
 			protected void onPostExecute(String result) 
 			{
-
+				printProductObject();
 			}
 
 		}

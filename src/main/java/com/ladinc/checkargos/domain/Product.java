@@ -66,7 +66,7 @@ public class Product {
 	{
 		if (this.id != null)
 		{
-			String htmlCode = HtmlCode.getHtmlCode(getSingleStoreStockUrl(storeId), activity);
+			String htmlCode = HtmlCode.getHtmlCodeNewClient(getSingleStoreStockUrl(storeId), activity);
 			//Maybe add error param in Json?
 			if (htmlCode != "")
 			{
@@ -84,6 +84,14 @@ public class Product {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price
+				+ ", imageUrl=" + imageUrl + ", stockLevels=" + stockLevels
+				+ "]";
+	}
+
+
 	private String getSingleStoreStockUrl(String storeId)
 	{
 		String url = UrlConstants.serviceUrl + "?function=stock&productId=" + this.id + "&storeId=" + storeId;
