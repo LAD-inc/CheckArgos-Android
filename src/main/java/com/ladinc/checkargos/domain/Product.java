@@ -1,5 +1,6 @@
 package com.ladinc.checkargos.domain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ public class Product {
 	public Product(String productId) 
 	{
 		this.id = productId;
+		this.stockLevels = new HashMap<String, String>();
 	}
 
 	
@@ -48,9 +50,43 @@ public class Product {
 		}
 	}
 	
+	
 	private String getProductInfoUrl()
 	{
 		String url = UrlConstants.serviceUrl + "?function=info&productId=" + this.id;
+		return url;
+	}
+	
+	public void clearStockStatus()
+	{
+		this.stockLevels.clear();
+	}
+	
+	public void getStockforSingleStore(Activity activity, String storeId) throws Exception
+	{
+		if (this.id != null)
+		{
+			String htmlCode = HtmlCode.getHtmlCode(getSingleStoreStockUrl(storeId), activity);
+			//Maybe add error param in Json?
+			if (htmlCode != "")
+			{
+				JSONObject jsonObj = new JSONObject(htmlCode);
+				//String storeId = jsonObj.getString("storeId");
+				String stockStatus = jsonObj.getString("stock");
+
+				
+				Log.d(TAG, "Store: " + storeId + " Stock: " + stockStatus);
+				
+				this.stockLevels.put(storeId, stockStatus);
+			}
+			
+		}
+	}
+	
+	
+	private String getSingleStoreStockUrl(String storeId)
+	{
+		String url = UrlConstants.serviceUrl + "?function=stock&productId=" + this.id + "&storeId=" + storeId;
 		return url;
 	}
 

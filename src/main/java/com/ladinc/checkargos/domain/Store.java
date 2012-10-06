@@ -2,8 +2,8 @@ package com.ladinc.checkargos.domain;
 
 public class Store {
 	
-	String storeName;
-	String storeId;
+	public String storeName;
+	public String storeId;
 	
 	public Store(String name, String id)
 	{

@@ -2,6 +2,7 @@ package com.ladinc.checkargos.activitys;
 
 import com.ladinc.checkargos.R;
 import com.ladinc.checkargos.domain.Product;
+import com.ladinc.checkargos.domain.Store;
 import com.ladinc.checkargos.domain.StoreCollection;
 import com.ladinc.checkargos.utilities.LoadingDialog;
 import android.app.Activity;
@@ -82,6 +83,24 @@ public class StockSearchActivity extends Activity implements OnClickListener
 	{
 		this.stores.populateIrishStoresFromWeb(this);
 	}
+	
+	public void getStockAllStores() throws Exception
+	{
+		this.product.clearStockStatus();
+		for (Store store : this.stores.irishStores)
+		{
+			new getStock().execute(store.storeId);
+		}
+	}
+	
+	
+	public void getStockLevel(String storeId) throws Exception
+	{
+		this.product.getStockforSingleStore(this, storeId);
+		//Log.d(TAG, "Stock status : " + this.product. );
+	}
+	
+	
 
 	
 	
@@ -131,9 +150,60 @@ public class StockSearchActivity extends Activity implements OnClickListener
 				loadingDialog.hideLoadingDialog();
 
 			}
+			
+			try 
+			{
+				getStockAllStores();
+			} 
+			catch (Exception e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 
 	}
+	
+	//Sub Class to do work in the background
+		class getStock extends AsyncTask<String, Integer, String> 
+		{
+			@Override
+			protected void onPreExecute() 
+			{
+				//Do not want loading dialog here
+			}
+
+			@Override
+			protected String doInBackground(String... stringArray) {
+
+				String storeId = stringArray[0];
+				
+				try 
+				{
+					
+					getStockLevel(storeId);
+					getProductInfo();
+					
+					//DONT KEEP HERE
+					getStores();
+					
+					return "";
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+				return "Error";
+
+			}
+
+			@Override
+			protected void onPostExecute(String result) 
+			{
+
+			}
+
+		}
 
 }
