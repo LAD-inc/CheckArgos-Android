@@ -22,6 +22,31 @@ public class Product {
 	String imageUrl;
 	Map<String, String> stockLevels;
 	
+	public String getId() {
+		return id;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public String getPrice() {
+		return price;
+	}
+
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+	public Map<String, String> getStockLevels() {
+		return stockLevels;
+	}
+
+
 	public Product(String productId) 
 	{
 		this.id = productId;

@@ -1,11 +1,18 @@
 package com.ladinc.checkargos.activitys;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import com.ladinc.checkargos.R;
 import com.ladinc.checkargos.domain.Product;
 import com.ladinc.checkargos.domain.Store;
 import com.ladinc.checkargos.domain.StoreCollection;
 import com.ladinc.checkargos.utilities.LoadingDialog;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +20,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class StockSearchActivity extends Activity implements OnClickListener
 {
@@ -25,6 +34,9 @@ public class StockSearchActivity extends Activity implements OnClickListener
 	private StoreCollection stores;
 	
 	LoadingDialog loadingDialog;
+	
+	private ImageView productImage;
+	private TextView productInfo;
 	
 
 	@Override
@@ -44,6 +56,9 @@ public class StockSearchActivity extends Activity implements OnClickListener
 	{
 		this.searchStockButton = (Button) this.findViewById(R.id.checkStockButton);
 		this.productIdText = (EditText) this.findViewById(R.id.productIdText);
+		
+		this.productImage = (ImageView) findViewById(R.id.productImage);
+		this.productInfo = (TextView) findViewById(R.id.productName);
 		
 		loadingDialog = new LoadingDialog(this, "Loading");
 	}
@@ -103,6 +118,25 @@ public class StockSearchActivity extends Activity implements OnClickListener
 	public void printProductObject()
 	{
 		Log.d(TAG, "Product : " + this.product.toString() );
+		
+	}
+	
+	public void setProductImage (String url) throws MalformedURLException, IOException
+	{
+		Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(url).getContent());
+		this.productImage.setImageBitmap(bitmap); 
+	}
+	
+	public void setProductNameAndPrice(String name, String price)
+	{
+		
+		this.productInfo.setText(name + " - €" +price);
+	}
+	
+	public void displayProductInfo() throws MalformedURLException, IOException
+	{
+		setProductNameAndPrice(this.product.getName(), this.product.getPrice());
+		setProductImage(this.product.getImageUrl());
 	}
 	
 	
@@ -158,6 +192,7 @@ public class StockSearchActivity extends Activity implements OnClickListener
 			
 			try 
 			{
+				displayProductInfo();
 				getStockAllStores();
 			} 
 			catch (Exception e) 
