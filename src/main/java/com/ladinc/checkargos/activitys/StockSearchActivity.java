@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +49,8 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 	
 	private ArrayList<StockStatus> stockStatus;
 	private StockStatusArrayAdapter statusAdapter;
+	
+	private int storeCount;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -158,21 +161,37 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 	public void getStockAllStores() throws Exception
 	{
 		
-		displayToast("Loading stock status, please wait.");
+		this.storeCount = this.stores.irishStores.size();
+		
+		//displayToast("Loading stock status, please wait.");
+		loadingDialog.setMessage("Loading stock status, please wait.");
+		loadingDialog.showLoadingDialog();
 		
 		this.product.clearStockStatus();
-		
-		for (Map.Entry<String, String> entry : this.stores.irishStores.entrySet()) 
+		try
 		{
-			new getStock().execute(entry.getKey());
+			for (Map.Entry<String, String> entry : this.stores.irishStores.entrySet()) 
+			{
+				new getStock().execute(entry.getKey());
 		    
+			}
 		}
+		catch (Exception e)
+		{
+			
+		}
+		
 	}
 	
 	
 	public void getStockLevel(String storeId) throws Exception
 	{
 		this.product.getStockforSingleStore(this, storeId);
+		
+		if (this.product.getStockLevels().size() == this.storeCount)
+		{
+			loadingDialog.hideLoadingDialog();
+		}
 		//Log.d(TAG, "Stock status : " + this.product. );
 	}
 	
