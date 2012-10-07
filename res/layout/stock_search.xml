@@ -10,14 +10,15 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
 	        android:weightSum="1.0" >
-
+
 	           <EditText
-	               android:id="@+id/productIdText"
-	               android:layout_width="0dp"
-	               android:layout_height="wrap_content"
-	               android:layout_weight=".60"
-	               android:ems="10"
-	               android:hint="@string/enter_product_id" />
+	           	android:id="@+id/productIdText"
+	           	android:layout_width="0dp"
+	           	android:layout_height="wrap_content"
+	           	android:layout_weight=".60"
+	           	android:ems="10"
+	           	android:hint="@string/enter_product_id"
+	           	android:inputType="number" />
 	
 	        	<Button
         			android:id="@+id/checkStockButton"
@@ -49,4 +50,13 @@
 		            android:layout_height="100dp"
 		            android:layout_weight=".40"/>
 	</LinearLayout>
+
+       	        
+    	<ListView
+    android:id="@+id/android:list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    />
+
+
 </LinearLayout>

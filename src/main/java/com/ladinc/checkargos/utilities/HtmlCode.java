@@ -39,18 +39,18 @@ public class HtmlCode {
 	public static String getHtmlCodeNewClient(String url, Activity activity) throws Exception {
 		Log.d(TAG, "Fetching Html code for the following url: " + url);
 
+		if (!InternetChecker.isOnline(activity)) {
+			Log.d(TAG, "No internet");
+			throw new Exception(NO_INTERNET);
+		}
+		
 		HttpClient httpclienNew = HttpClientHelper.createHttpClient();
 		
 		String htmlCode = "";
 		HttpGet httpget = new HttpGet(url);
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
 		htmlCode = httpclienNew.execute(httpget, responseHandler);
-
-		if (!InternetChecker.isOnline(activity)) {
-			Log.d(TAG, "No internet");
-			throw new Exception(NO_INTERNET);
-		}
-
+		
 		return htmlCode;
 	}
 

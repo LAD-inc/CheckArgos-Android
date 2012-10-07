@@ -1,7 +1,9 @@
 package com.ladinc.checkargos.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +18,7 @@ public class StoreCollection
 {
 	private static final String TAG = "StoreCollection";
 	
-	public List<Store> irishStores;
+	public Map<String, String> irishStores;
 
 	public void populateIrishStoresFromWeb(Activity activity) throws Exception
 	{
@@ -24,7 +26,7 @@ public class StoreCollection
 		//Maybe add error param in Json?
 		if (htmlCode != "")
 		{
-			this.irishStores = new ArrayList<Store>();
+			this.irishStores = new HashMap<String, String>();
 			
 			JSONArray entries = new JSONArray(htmlCode);
 			
@@ -34,7 +36,7 @@ public class StoreCollection
 			{
 				JSONObject storeJson = entries.getJSONObject(i);
 				store = new Store(storeJson.getString("name"), storeJson.getString("id"));
-				this.irishStores.add(store);
+				this.irishStores.put(storeJson.getString("id"), storeJson.getString("name"));
 				Log.d(TAG, "Adding Store: " +i + " " + store);
 				
 			}
@@ -45,6 +47,8 @@ public class StoreCollection
 		}
 		
 	}
+	
+	
 	
 	private String returnGetStoresUrl()
 	{
