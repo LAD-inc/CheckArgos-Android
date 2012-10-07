@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 import com.ladinc.checkargos.R;
@@ -27,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StockSearchActivity extends ListActivity implements OnClickListener
 {
@@ -122,10 +125,12 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 	public void clearPrevious()
 	{
 		this.productImage.setImageBitmap(null); 
+		this.productInfo.setText(null);
 		
 		if (this.stockStatus.size() > 0)
 		{
-			this.stockStatus = new ArrayList<StockStatus>();
+			this.statusAdapter.notifyDataSetChanged();
+			this.statusAdapter.clear();
 			this.statusAdapter.notifyDataSetChanged();
 			
 		}
@@ -146,8 +151,15 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 		this.stores.populateIrishStoresFromWeb(this);
 	}
 	
+	private void displayToast(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+	
 	public void getStockAllStores() throws Exception
 	{
+		
+		displayToast("Loading stock status, please wait.");
+		
 		this.product.clearStockStatus();
 		
 		for (Map.Entry<String, String> entry : this.stores.irishStores.entrySet()) 
@@ -174,6 +186,7 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<StockStatus> getStockStatusList()
 	{
 		Map<String, String> stockLevelList = this.product.getStockLevels();
@@ -189,6 +202,16 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 			ss = new StockStatus(storeName, stockLevel);
 			ssList.add(ss);
 		}
+		
+		Collections.sort(ssList, new Comparator(){
+
+	        public int compare(Object o1, Object o2) 
+	        {
+	        	StockStatus s1 = (StockStatus) o1;
+	        	StockStatus s2 = (StockStatus) o2;
+	        	return s1.storeName.compareToIgnoreCase(s2.storeName);
+	        }});
+	   
 		
 		return ssList;
 		
@@ -216,7 +239,7 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 	private void updateStockList() 
 	{
 		if (this.stockStatus != null || this.stockStatus.size() > 0)
-		{
+		{			
 			this.statusAdapter.notifyDataSetChanged();
 			this.statusAdapter.clear();
 			for(StockStatus ss : this.stockStatus)
@@ -227,6 +250,7 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 		this.statusAdapter.notifyDataSetChanged();
 		
 	}
+	
 	
 	private void displayStoreError() {
 		
