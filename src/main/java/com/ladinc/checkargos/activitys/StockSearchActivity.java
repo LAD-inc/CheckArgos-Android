@@ -188,27 +188,33 @@ public class StockSearchActivity extends ListActivity implements OnClickListener
 	{
 		this.product.getStockforSingleStore(this, storeId);
 		
-		if (this.product.getStockLevels().size() == this.storeCount)
-		{
-			loadingDialog.hideLoadingDialog();
-		}
+//		if (this.product.getStockLevels().size() == this.storeCount)
+//		{
+//			loadingDialog.hideLoadingDialog();
+//		}
 		//Log.d(TAG, "Stock status : " + this.product. );
 	}
 	
 	public void printProductObject()
 	{
 		
-		this.stockStatus = getStockStatusList();
+		if (this.product.getStockLevels().size() == this.storeCount)
+		{
+			this.stockStatus = getStockStatusList();
 		
-		updateStockList();
-		Log.d(TAG, "Product : " + this.product.toString() );
+			updateStockList();
+			loadingDialog.hideLoadingDialog();
+		}
+		//Log.d(TAG, "Product : " + this.product.toString() );
 		
 	}
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<StockStatus> getStockStatusList()
 	{
-		Map<String, String> stockLevelList = this.product.getStockLevels();
+		//Map<String, String> stockLevelList = this.product.getStockLevels();
+		
+		Map<String, String> stockLevelList = this.product.getCopyOfStockLevels();
 		String storeName;
 		String stockLevel;
 		StockStatus ss;

@@ -1,5 +1,6 @@
 package com.ladinc.checkargos.domain;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +45,10 @@ public class Product {
 
 	public Map<String, String> getStockLevels() {
 		return stockLevels;
+	}
+	
+	public Map<String, String> getCopyOfStockLevels(){
+		return Collections.unmodifiableMap(this.stockLevels);
 	}
 
 
@@ -112,8 +117,7 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", price=" + price
-				+ ", imageUrl=" + imageUrl + ", stockLevels=" + stockLevels
-				+ "]";
+				+ ", imageUrl=" + imageUrl + "]";
 	}
 
 
